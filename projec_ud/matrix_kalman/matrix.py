@@ -39,10 +39,13 @@ class Matrix(object):
         if self.h > 2:
             raise(NotImplementedError, "Calculating determinant not implemented for matrices largerer than 2x2.")
         
-        # TODO - your code here
-        A= self.h
-        print('The determinant is' + str(A))
-        return B
+        # TODO - your code here [done]
+        if self.h ==1:
+            Det = self       
+        if self.h ==2:
+            Det = self[0][0]*self[1][1] - self[0][1]*self[1][0]
+        print('the determinant is' +str(Det))    
+        return Det 
     
         
     def trace(self):
@@ -52,14 +55,13 @@ class Matrix(object):
         if not self.is_square():
             raise(ValueError, "Cannot calculate the trace of a non-square matrix.")
 
-        # TODO - your code here
-        A= size(self)
-        if A == 1:
-            B = A[0]
-        if A == 2:
-            B = A[0][0]+ A[1][1]
-        print('the trace is' +str(B))
-        return B
+        # TODO - your code here [done]
+        if self.h ==1:
+            Tra = self[0]
+        if self.h ==2:
+            Tra = self[0][0]+ self[1][1]
+        print('the trace is' +str(Tra))
+        return Tra
     
     def inverse(self):
         """
@@ -71,16 +73,21 @@ class Matrix(object):
             raise(NotImplementedError, "inversion not implemented for matrices larger than 2x2.")
 
         # TODO - your code here
+        if self.h == 1:
+            inv = 1/self
+        if self.h == 2:
+            inv = 1
+        return inv 
 
     def T(self):
         """
         Returns a transposed copy of this Matrix.
         """
-        # TODO - your code here
-        M = [self.column, self.row]
-        for r in range(self.column):
-        for c in range(self.row):
-        M[r, c] = self[c, r]
+        # TODO - your code here[done]
+        M = zeros(self.h,self.w)
+        for r in range(self.h):
+            for c in range(self.w):
+                M[r,c] = self[c,r]
         return M
     
     def is_square(self):
@@ -122,8 +129,15 @@ class Matrix(object):
         if self.h != other.h or self.w != other.w:
             raise(ValueError, "Matrices can only be added if the dimensions are the same") 
         #   
-        # TODO - your code here
+        # TODO - your code here[done]
         #
+        addt = zeroes(self.h,self.w)
+        for i in range(self.h):
+            for j in range(self.w):
+                addt[i][j] = self[i][j] + other[i][j] 
+        #print("the add result is")    
+       # print(addt)
+        return addt
 
     def __neg__(self):
         """
@@ -138,24 +152,40 @@ class Matrix(object):
           -3.0  -4.0
         """
         #   
-        # TODO - your code here
+        # TODO - your code here[done]
         #
+        neg = zeroes(self.h,self.w)
+        for i in range(self.h):
+            for j in range(self.w):
+                neg[i][j] = -1*self[i][j]
+        return neg       
 
     def __sub__(self, other):
         """
         Defines the behavior of - operator (as subtraction)
         """
         #   
-        # TODO - your code here
+        # TODO - your code here[done]
         #
+        sub = zeroes(self.h,self.w)
+        for i in range(self.h):
+            for j in range(self.w):
+                sub[i][j] = self[i][j] - other[i][j]
+        return sub
 
     def __mul__(self, other):
         """
         Defines the behavior of * operator (matrix multiplication)
         """
         #   
-        # TODO - your code here
+        # TODO - your code here[done]
         #
+        mul = zeroes(self.h,other.w)
+        for i in range(self.h):
+            for j in range(other.w):
+                for k in range(other.h):
+                    mul[i][j] += self[i][k] * other[k][j]
+        return mul
 
     def __rmul__(self, other):
         """
@@ -174,4 +204,12 @@ class Matrix(object):
             #   
             # TODO - your code here
             #
+            if self.h == 1:
+                new = other * self
+            if self.h == 2:
+                for i in range(self.h):
+                    for j in range(self.w):
+                        self[i][j] = other*self[i][j]
+            return self
+            
             
